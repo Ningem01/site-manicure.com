@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Version - Restaurante Português</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --burnt-orange: #C85A3A;
+            --warm-gold: #D4A574;
+            --deep-brown: #4A3728;
+            --cream: #F5EFE8;
+            --terracotta: #E8704F;
+            --olive-green: #5F6E4E;
+            --charcoal: #2C2C2C;
+            --soft-cream: #FBF8F3;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--deep-brown);
+            background-color: var(--soft-cream);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--burnt-orange);
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--deep-brown);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--burnt-orange);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 5%;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Hero Section */
+        #home {
+            margin-top: 80px;
+            min-height: 70vh;
+            background: linear-gradient(135deg, var(--burnt-orange) 0%, var(--terracotta) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="3" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1200" height="600" fill="url(%23dots)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--burnt-orange);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Menu Section */
+        #menu {
+            padding: 4rem 5%;
+            background: var(--soft-cream);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--burnt-orange);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-tab {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--warm-gold);
+            color: var(--deep-brown);
+            cursor: pointer;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .menu-tab.active {
+            background: var(--burnt-orange);
+            color: white;
+            border-color: var(--burnt-orange);
+        }
+
+        .menu-tab:hover {
+            border-color: var(--burnt-orange);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dish-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .dish-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--warm-gold) 0%, var(--terracotta) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .dish-info {
+            padding: 1.5rem;
+        }
+
+        .dish-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--burnt-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .dish-description {
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dish-price {
+            font-size: 1.2rem;
+            color: var(--burnt-orange);
+            font-weight: 600;
+        }
+
+        /* Chef Story Section */
+        #chef {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--soft-cream) 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .chef-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--burnt-orange) 0%, var(--warm-gold) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 6rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .chef-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--burnt-orange);
+            margin-bottom: 1rem;
+        }
+
+        .chef-text p {
+            color: var(--deep-brown);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            #chef {
+                grid-template-columns: 1fr;
+            }
+
+            .chef-image {
+                height: 300px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Reviews Section */
+        #reviews {
+            padding: 4rem 5%;
+            background: var(--soft-cream);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--burnt-orange);
+        }
+
+        .review-stars {
+            color: var(--warm-gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: var(--deep-brown);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--burnt-orange);
+            font-size: 0.95rem;
+        }
+
+        .review-date {
+            color: var(--charcoal);
+            font-size: 0.85rem;
+        }
+
+        /* Booking Section */
+        #booking {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, var(--burnt-orange) 0%, var(--terracotta) 100%);
+            color: white;
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            color: var(--deep-brown);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .booking-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--burnt-orange);
+        }
+
+        .form-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .step-indicator {
+            flex: 1;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        .step-indicator.active {
+            background: var(--burnt-orange);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--deep-brown);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--warm-gold);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--burnt-orange);
+            box-shadow: 0 0 0 3px rgba(200, 90, 58, 0.1);
+        }
+
+        .dish-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .dish-select-item {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .dish-select-item:hover {
+            border-color: var(--burnt-orange);
+        }
+
+        .dish-select-item.selected {
+            background: var(--burnt-orange);
+            color: white;
+            border-color: var(--burnt-orange);
+        }
+
+        .party-size-selector {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .size-button {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .size-button:hover {
+            border-color: var(--burnt-orange);
+        }
+
+        .size-button.selected {
+            background: var(--burnt-orange);
+            color: white;
+            border-color: var(--burnt-orange);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            border-color: var(--burnt-orange);
+        }
+
+        .time-slot.selected {
+            background: var(--burnt-orange);
+            color: white;
+            border-color: var(--burnt-orange);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-next {
+            background: var(--burnt-orange);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: var(--terracotta);
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background: #ddd;
+            color: var(--deep-brown);
+        }
+
+        .btn-prev:hover {
+            background: #ccc;
+        }
+
+        .summary {
+            background: var(--soft-cream);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: var(--soft-cream);
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            color: var(--burnt-orange);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .success-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Location Section */
+        #location {
+            padding: 4rem 5%;
+            background: var(--soft-cream);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--warm-gold) 0%, var(--burnt-orange) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--burnt-orange);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-detail {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .location-detail::before {
+            content: '📍';
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .location-detail strong {
+            color: var(--burnt-orange);
+        }
+
+        @media (max-width: 768px) {
+            #location {
+                grid-template-columns: 1fr;
+            }
+
+            .map-placeholder {
+                height: 300px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-brown);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-container {
+                padding: 1.5rem;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .party-size-selector {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Demo Version</div>
+        <ul>
+            <li><a href="#home">Início</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#chef">Sobre Nós</a></li>
+            <li><a href="#reviews">Avaliações</a></li>
+            <li><a href="#booking">Reservas</a></li>
+            <li><a href="#location">Localização</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-content">
+            <h1>Demo Version</h1>
+            <p class="tagline">Autêntica Culinária Portuguesa num Ambiente Acolhedor</p>
+            <a href="#booking" class="cta-button">Faça Uma Reserva</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2 class="section-title">Nosso Menu</h2>
+        <div class="menu-tabs" id="menuTabs"></div>
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <!-- Chef's Story Section -->
+    <section id="chef">
+        <div class="chef-image">👨‍🍳</div>
+        <div class="chef-text">
+            <h2>Bem-vindo ao Demo Version</h2>
+            <p>Somos um restaurante autêntico dedicado à preservação e celebração da culinária portuguesa tradicional. Cada prato é preparado com ingredientes frescos selecionados, respeitando receitas que passaram de geração em geração.</p>
+            <p>Nossa missão é oferecer uma experiência gastronômica genuína, onde você pode saborear o melhor da gastronomia portuguesa num ambiente acolhedor e familiar.</p>
+            <p>Visite-nos e descubra a verdadeira essência da culinária portuguesa!</p>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2 class="section-title">O Que Nossos Clientes Dizem</h2>
+        <div class="reviews-grid" id="reviewsGrid"></div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking">
+        <div class="booking-container">
+            <h2 class="booking-title">Faça Sua Reserva</h2>
+            <div class="form-steps" id="formSteps"></div>
+
+            <form id="bookingForm">
+                <!-- Step 1: Menu Selection -->
+                <div class="form-step active" id="step1">
+                    <h3 style="color: var(--burnt-orange); margin-bottom: 1rem;">Passo 1: Selecione Pratos Favoritos</h3>
+                    <p style="margin-bottom: 1rem; color: var(--charcoal);">Escolha 1 ou 2 pratos que gostaria de saborear:</p>
+                    <div class="dish-selector" id="dishSelector"></div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-next" onclick="nextStep()">Seguinte →</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Date, Time & Party Size -->
+                <div class="form-step" id="step2">
+                    <h3 style="color: var(--burnt-orange); margin-bottom: 1rem;">Passo 2: Data, Hora e Número de Pessoas</h3>
+
+                    <div class="form-group">
+                        <label>Data da Reserva:</label>
+                        <input type="date" id="bookingDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hora Preferida:</label>
+                        <div class="time-slots" id="timeSlots"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número de Pessoas:</label>
+                        <div class="party-size-selector" id="partySizeSelector"></div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-prev" onclick="prevStep()">← Anterior</button>
+                        <button type="button" class="btn btn-next" onclick="nextStep()">Seguinte →</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Personal Information -->
+                <div class="form-step" id="step3">
+                    <h3 style="color: var(--burnt-orange); margin-bottom: 1rem;">Passo 3: Seus Dados</h3>
+
+                    <div class="form-group">
+                        <label>Nome Completo:</label>
+                        <input type="text" id="clientName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="clientEmail" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone:</label>
+                        <input type="tel" id="clientPhone" required>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-prev" onclick="prevStep()">← Anterior</button>
+                        <button type="button" class="btn btn-next" onclick="nextStep()">Seguinte →</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Special Requests & Confirmation -->
+                <div class="form-step" id="step4">
+                    <h3 style="color: var(--burnt-orange); margin-bottom: 1rem;">Passo 4: Restrições e Confirmação</h3>
+
+                    <div class="form-group">
+                        <label>Restrições Alimentares:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dietary_vegan" value="Vegan" onclick="updateDiet()">
+                                <label for="dietary_vegan" style="margin: 0; font-weight: normal;">Vegan</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dietary_vegetarian" value="Vegetarian" onclick="updateDiet()">
+                                <label for="dietary_vegetarian" style="margin: 0; font-weight: normal;">Vegetariano</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dietary_glutenfree" value="Gluten-free" onclick="updateDiet()">
+                                <label for="dietary_glutenfree" style="margin: 0; font-weight: normal;">Sem Glúten</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dietary_shellfish" value="Shellfish allergy" onclick="updateDiet()">
+                                <label for="dietary_shellfish" style="margin: 0; font-weight: normal;">Alergia Marisco</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ocasião Especial (aniversário, celebração)?</label>
+                        <input type="text" id="specialOccasion" placeholder="Deixe em branco se não aplicável">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pedidos Especiais:</label>
+                        <textarea id="specialRequests" rows="3" placeholder="Deixe-nos saber qualquer pedido especial..."></textarea>
+                    </div>
+
+                    <div class="summary">
+                        <strong>Resumo da Sua Reserva:</strong>
+                        <div id="bookingSummary" style="margin-top: 1rem; color: var(--deep-brown);"></div>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <div class="success-emoji">🎉</div>
+                        <h3>Reserva Confirmada!</h3>
+                        <p>Obrigado por escolher o Demo Version. Esperamos por você!</p>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-prev" onclick="prevStep()">← Anterior</button>
+                        <button type="button" class="btn btn-next" onclick="submitBooking()">Confirmar Reserva ✓</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location">
+        <div class="map-placeholder">🗺️</div>
+        <div class="location-info">
+            <h2>Localização & Contacto</h2>
+            <div class="location-detail">
+                <strong>Telefone:</strong> 250 500 080
+            </div>
+            <div class="location-detail">
+                <strong>Horário:</strong> Segunda-Domingo 12h - 21h
+            </div>
+            <div class="location-detail">
+                <strong>Localização:</strong> Barcelos, Portugal
+            </div>
+            <div class="location-detail">
+                <p style="color: var(--deep-brown); margin-top: 2rem;">Visite-nos para uma experiência autêntica de culinária portuguesa. Reservas são altamente recomendadas, especialmente nos fins de semana!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Demo Version - Restaurante Português. Todos os direitos reservados.</p>
+        <p>Telefone: 250 500 080 | Segunda-Domingo: 12h - 21h</p>
+    </footer>
+
+    <script>
+        // Menu Data
+        const menuData = {
+            categories: [
+                {
+                    id: 'entradas',
+                    name: 'Entradas',
+                    dishes: [
+                        { id: 'caldo_verde', name: 'Caldo Verde', description: 'Sopa tradicional portuguesa com couve e chorizo', price: 8.50, emoji: '🥬' },
+                        { id: 'alheira_frita', name: 'Alheira Frita', description: 'Alheira crocante acompanhada de ovo', price: 9.50, emoji: '🍗' },
+                        { id: 'sardinha_assada', name: 'Sardinha Assada', description: 'Sardinha fresca grelhada na perfeição', price: 11.00, emoji: '🐟' },
+                        { id: 'arroz_polvo', name: 'Arroz de Polvo', description: 'Arroz cremoso com polvo fresco', price: 12.00, emoji: '🐙' }
+                    ]
+                },
+                {
+                    id: 'pratos_principais',
+                    name: 'Pratos Principais',
+                    dishes: [
+                        { id: 'arroz_marisco', name: 'Arroz de Marisco', description: 'Arroz premium com marisco fresco', price: 24.00, emoji: '🦞' },
+                        { id: 'bacalhau_bras', name: 'Bacalhau à Brás', description: 'Bacalhau desfiado crocante com batata palha', price: 18.50, emoji: '🐟' },
+                        { id: 'francesinha', name: 'Francesinha do Porto', description: 'Sandwich quente coberto com molho e carne', price: 17.00, emoji: '🥪' },
+                        { id: 'peixe_grelado', name: 'Peixe Grelado', description: 'Peixe fresco grelhado do dia', price: 22.00, emoji: '🐟' },
+                        { id: 'carne_assada', name: 'Carne Assada Portuguesa', description: 'Carne macia assada com batata e salada', price: 20.00, emoji: '🥩' }
+                    ]
+                },
+                {
+                    id: 'sobremesas',
+                    name: 'Sobremesas',
+                    dishes: [
+                        { id: 'pastel_nata', name: 'Pastel de Nata', description: 'Pastel crocante com creme aveludado', price: 5.00, emoji: '🥐' },
+                        { id: 'pudim', name: 'Pudim de Leite', description: 'Pudim caseiro tradicional', price: 5.50, emoji: '🍮' },
+                        { id: 'mousse_chocolate', name: 'Mousse de Chocolate', description: 'Mousse de chocolate belga', price: 6.00, emoji: '🍫' }
+                    ]
+                },
+                {
+                    id: 'bebidas',
+                    name: 'Bebidas',
+                    dishes: [
+                        { id: 'vinho_tinto', name: 'Vinho Tinto (copo)', description: 'Seleção de vinhos tintos portugueses', price: 4.50, emoji: '🍷' },
+                        { id: 'vinho_branco', name: 'Vinho Branco (copo)', description: 'Vinho branco fresco e frutuoso', price: 4.50, emoji: '🍷' },
+                        { id: 'cerveja', name: 'Cerveja', description: 'Cerveja fresca artesanal', price: 3.50, emoji: '🍺' },
+                        { id: 'agua_gas', name: 'Água com Gás', description: 'Água mineral com gás', price: 2.00, emoji: '💧' }
+                    ]
+                }
+            ]
+        };
+
+        // Reviews Data
+        const reviewsData = [
+            {
+                name: 'Maria Silva',
+                rating: 5,
+                date: 'Março 2024',
+                text: 'Comida excelente! O arroz de marisco era simplesmente delicioso. Voltaremos em breve!'
+            },
+            {
+                name: 'João Santos',
+                rating: 5,
+                date: 'Fevereiro 2024',
+                text: 'Ambiente acolhedor e staff muito atencioso. Recomendo o bacalhau à Brás!'
+            },
+            {
+                name: 'Ana Costa',
+                rating: 5,
+                date: 'Janeiro 2024',
+                text: 'A verdadeira culinária portuguesa! Produtos frescos e sabor autêntico.'
+            },
+            {
+                name: 'Carlos Oliveira',
+                rating: 5,
+                date: 'Dezembro 2023',
+                text: 'Um lugar especial para celebrar. Ótimo serviço e comida de qualidade superior!'
+            },
+            {
+                name: 'Fernanda Martins',
+                rating: 5,
+                date: 'Novembro 2023',
+                text: 'Simplesmente fantástico! Este é o melhor restaurante português que já visitei.'
+            },
+            {
+                name: 'Pedro Rodrigues',
+                rating: 5,
+                date: 'Outubro 2023',
+                text: 'Excelente relação qualidade-preço. A sopa de marisco era perfeita. Muito bom!'
+            }
+        ];
+
+        // Booking Data
+        let bookingData = {
+            selectedDishes: [],
+            partySize: 2,
+            date: '',
+            time: '',
+            name: '',
+            email: '',
+            phone: '',
+            dietaryRestrictions: [],
+            specialOccasion: '',
+            specialRequests: '',
+            timestamp: new Date()
+        };
+
+        let currentStep = 1;
+
+        // Initialize Menu
+        function initMenu() {
+            const menuTabs = document.getElementById('menuTabs');
+            menuTabs.innerHTML = menuData.categories.map((cat, idx) =>
+                `<button class="menu-tab ${idx === 0 ? 'active' : ''}" onclick="filterMenu('${cat.id}')">${cat.name}</button>`
+            ).join('');
+
+            displayMenuCategory(menuData.categories[0].id);
+        }
+
+        function filterMenu(categoryId) {
+            document.querySelectorAll('.menu-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            displayMenuCategory(categoryId);
+        }
+
+        function displayMenuCategory(categoryId) {
+            const category = menuData.categories.find(c => c.id === categoryId);
+            const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = category.dishes.map(dish => `
+                <div class="dish-card">
+                    <div class="dish-image">${dish.emoji}</div>
+                    <div class="dish-info">
+                        <div class="dish-name">${dish.name}</div>
+                        <div class="dish-description">${dish.description}</div>
+                        <div class="dish-price">€${dish.price.toFixed(2)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize Reviews
+        function initReviews() {
+            const reviewsGrid = document.getElementById('reviewsGrid');
+            reviewsGrid.innerHTML = reviewsData.map(review => `
+                <div class="review-card">
+                    <div class="review-stars">${'⭐'.repeat(review.rating)}</div>
+                    <div class="review-text">"${review.text}"</div>
+                    <div class="review-author">- ${review.name}</div>
+                    <div class="review-date">${review.date}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize Form Steps
+        function initForm() {
+            const formSteps = document.getElementById('formSteps');
+            formSteps.innerHTML = [1, 2, 3, 4].map(i =>
+                `<div class="step-indicator ${i === 1 ? 'active' : ''}"></div>`
+            ).join('');
+
+            // Initialize Dish Selector
+            const dishSelector = document.getElementById('dishSelector');
+            const allDishes = menuData.categories.flatMap(cat => cat.dishes);
+            dishSelector.innerHTML = allDishes.slice(0, 6).map(dish => `
+                <div class="dish-select-item" onclick="toggleDish('${dish.id}', this)">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">${dish.emoji}</div>
+                    <div style="font-weight: 600; font-size: 0.95rem;">${dish.name}</div>
+                    <div style="font-size: 0.85rem; color: var(--burnt-orange);">€${dish.price.toFixed(2)}</div>
+                </div>
+            `).join('');
+
+            // Initialize Time Slots
+            const timeSlots = document.getElementById('timeSlots');
+            const times = ['12:00', '13:00', '14:00', '19:00', '20:00', '21:00'];
+            timeSlots.innerHTML = times.map(time => `
+                <div class="time-slot" onclick="selectTime('${time}', this)">${time}</div>
+            `).join('');
+
+            // Initialize Party Size
+            const partySizeSelector = document.getElementById('partySizeSelector');
+            partySizeSelector.innerHTML = Array.from({length: 12}, (_, i) => i + 1).map(size => `
+                <button type="button" class="size-button ${size === 2 ? 'selected' : ''}" onclick="selectPartySize(${size}, this)">${size}</button>
+            `).join('');
+
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').setAttribute('min', today);
+        }
+
+        function toggleDish(dishId, element) {
+            element.classList.toggle('selected');
+            if (element.classList.contains('selected')) {
+                if (bookingData.selectedDishes.length < 2) {
+                    bookingData.selectedDishes.push(dishId);
+                } else {
+                    element.classList.remove('selected');
+                }
+            } else {
+                bookingData.selectedDishes = bookingData.selectedDishes.filter(id => id !== dishId);
+            }
+        }
+
+        function selectTime(time, element) {
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            bookingData.time = time;
+        }
+
+        function selectPartySize(size, element) {
+            document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            bookingData.partySize = size;
+        }
+
+        function updateDiet() {
+            bookingData.dietaryRestrictions = [];
+            ['dietary_vegan', 'dietary_vegetarian', 'dietary_glutenfree', 'dietary_shellfish'].forEach(id => {
+                if (document.getElementById(id).checked) {
+                    bookingData.dietaryRestrictions.push(document.getElementById(id).value);
+                }
+            });
+        }
+
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                updateForm();
+                updateSummary();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateForm();
+            }
+        }
+
+        function validateStep(step) {
+            if (step === 1) return bookingData.selectedDishes.length > 0;
+            if (step === 2) return bookingData.date && bookingData.time;
+            if (step === 3) return bookingData.name && bookingData.email && bookingData.phone;
+            return true;
+        }
+
+        function updateForm() {
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step' + currentStep).classList.add('active');
+
+            document.querySelectorAll('.step-indicator').forEach((ind, idx) => {
+                ind.classList.toggle('active', idx + 1 <= currentStep);
+            });
+
+            window.scrollTo({top: document.getElementById('booking').offsetTop, behavior: 'smooth'});
+        }
+
+        function updateSummary() {
+            const allDishes = menuData.categories.flatMap(cat => cat.dishes);
+            const selectedDishNames = bookingData.selectedDishes.map(id => {
+                const dish = allDishes.find(d => d.id === id);
+                return dish ? dish.name : '';
+            }).join(', ');
+
+            const summary = `
+                <p><strong>Pratos:</strong> ${selectedDishNames || 'Nenhum selecionado'}</p>
+                <p><strong>Data:</strong> ${bookingData.date || 'Não selecionada'}</p>
+                <p><strong>Hora:</strong> ${bookingData.time || 'Não selecionada'}</p>
+                <p><strong>Pessoas:</strong> ${bookingData.partySize}</p>
+                <p><strong>Nome:</strong> ${bookingData.name}</p>
+                <p><strong>Email:</strong> ${bookingData.email}</p>
+                <p><strong>Telefone:</strong> ${bookingData.phone}</p>
+                <p><strong>Restrições:</strong> ${bookingData.dietaryRestrictions.join(', ') || 'Nenhuma'}</p>
+            `;
+            document.getElementById('bookingSummary').innerHTML = summary;
+        }
+
+        function submitBooking() {
+            bookingData.name = document.getElementById('clientName').value;
+            bookingData.email = document.getElementById('clientEmail').value;
+            bookingData.phone = document.getElementById('clientPhone').value;
+            bookingData.date = document.getElementById('bookingDate').value;
+            bookingData.specialOccasion = document.getElementById('specialOccasion').value;
+            bookingData.specialRequests = document.getElementById('specialRequests').value;
+
+            if (!validateStep(3)) {
+                alert('Por favor, preencha todos os campos obrigatórios');
+                return;
+            }
+
+            // Prepare data for Google Sheets
+            const sheetData = {
+                'Timestamp': new Date().toISOString(),
+                'Nome': bookingData.name,
+                'Email': bookingData.email,
+                'Telefone': bookingData.phone,
+                'Data': bookingData.date,
+                'Hora': bookingData.time,
+                'Pessoas': bookingData.partySize,
+                'Pratos': bookingData.selectedDishes.join(', '),
+                'Restrições': bookingData.dietaryRestrictions.join(', '),
+                'Ocasião Especial': bookingData.specialOccasion,
+                'Pedidos Especiais': bookingData.specialRequests
+            };
+
+            // Send to Google Sheets (Google Apps Script Web App URL)
+            // Replace with actual Google Apps Script URL
+            const scriptUrl = 'https://script.google.com/macros/d/YOUR_SCRIPT_ID/useweb?resource/add'; // Replace with your script URL
+
+            // For demo, just show success message
+            document.getElementById('successMessage').classList.add('show');
+            setTimeout(() => {
+                resetForm();
+            }, 3000);
+
+            // Log data for verification
+            console.log('Booking Data:', sheetData);
+        }
+
+        function resetForm() {
+            document.getElementById('bookingForm').reset();
+            document.getElementById('successMessage').classList.remove('show');
+            bookingData = {
+                selectedDishes: [],
+                partySize: 2,
+                date: '',
+                time: '',
+                name: '',
+                email: '',
+                phone: '',
+                dietaryRestrictions: [],
+                specialOccasion: '',
+                specialRequests: '',
+                timestamp: new Date()
+            };
+            currentStep = 1;
+            updateForm();
+            initForm();
+        }
+
+        // Initialize everything on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            initMenu();
+            initReviews();
+            initForm();
+        });
+    </script>
+</body>
+</html>
